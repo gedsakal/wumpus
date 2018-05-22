@@ -1,4 +1,4 @@
-wumpus
+wumpus 0.1
 ======
 
 A simple test designed for the interview process at Connected Health Services. 
@@ -8,3 +8,6 @@ Please fork this repo in your account and develop a Java program that implements
 Bonus points for unit tests ;).
 
 Please use Eclipse as your IDE and whatever version of Java you are most confortable with (Scala or Groovy also welcomed). Use whatever framework you prefer for your unit tests.
+
+
+NOTE: Used IntelliJ instead of Eclipse
