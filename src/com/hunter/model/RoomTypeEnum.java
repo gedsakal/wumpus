@@ -1,10 +1,9 @@
 package com.hunter.model;
 
 public enum RoomTypeEnum {
-    EMPTY,
-    PIT,
-    WALL,
-    WUMPUS,
+    _EMPTY,
     GOLD,
+    PIT,
+    WUMPUS,
     EXIT
 }

@@ -27,4 +27,22 @@ public class Position {
     public void setY(int y) {
         this.y = y;
     }
+
+
+    public void addToX(int a) {
+        this.x += a;
+    }
+
+    public void addToY(int a) {
+        this.y += a;
+    }
+
+    @Override
+    public String toString() {
+        return "[x:" + x +" ; y:" + y + "]";
+    }
+
+    public boolean equals(Position p) {
+        return  this.x == p.getX() && this.y == p.getY();
+    }
 }

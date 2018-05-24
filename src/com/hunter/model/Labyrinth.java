@@ -20,8 +20,8 @@ public class Labyrinth {
         return rooms.length;
     }
 
-    public Room[][] getRooms () {
-        return rooms;
+    public Room getRoom(Position p) {
+        return rooms[p.getX()][p.getY()];
     }
 
     public Room getRoom(int x, int y) {
