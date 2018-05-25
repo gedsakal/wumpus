@@ -13,14 +13,28 @@ public class Room {
     public Room() {
         this.roomType = RoomTypeEnum._EMPTY;
     }
+    
 
     public boolean isEmpty() {
         return this.roomType == RoomTypeEnum._EMPTY;
     }
-
-    public RoomTypeEnum getRoomType() {
-        return roomType;
+    
+    public boolean isPIT() {
+    	return this.roomType == RoomTypeEnum.PIT;
     }
+    
+    public boolean isWUMPUS() {
+    	return this.roomType == RoomTypeEnum.WUMPUS;
+    }
+    
+    public boolean isGOLD() {
+    	return this.roomType == RoomTypeEnum.GOLD;
+    }
+    
+    public boolean isEXIT() {
+    	return this.roomType == RoomTypeEnum.EXIT;
+    }
+        
 
     public void setRoomType(RoomTypeEnum type) {
         this.roomType = type;

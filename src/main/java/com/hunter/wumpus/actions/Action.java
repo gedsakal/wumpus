@@ -14,43 +14,59 @@ import com.hunter.wumpus.utils.PlayerSpeaker;
 
 public abstract class Action {
 
-    List<Perception> perceptionsAfterAction = new ArrayList<>();
+	protected Hunter hunter; 
+	protected Labyrinth labyrinth;
+	protected List<Perception> perceptionsAfterAction;
+    
+    public Action(Hunter hunter, Labyrinth labyrinth) {
+    	this.hunter = hunter;
+    	this.labyrinth = labyrinth;    		
+    	this.perceptionsAfterAction = new ArrayList<>();
+    	info();
+    }
 
-    public abstract List<Perception> doAction(Hunter hunter, Labyrinth labyrinth);
+    public abstract List<Perception> doAction();
+    
+    private void info() {
+        PlayerSpeaker.speak(this);
+    }
 
     public String getName() {
-        return this.getClass().getSimpleName();
+        return this.getClass().getSimpleName().toUpperCase();
     }
 
 
     /**
      * Maps User input  to Action - ignoring case
      * @param actionCode
+     * @param labyrinth 
+     * @param hunter 
      * @return
      */
-    public static Action findAction(String actionCode) {
+    public static Action findAction(String actionCode, Hunter hunter, Labyrinth labyrinth) {
         Action result = null;
         switch (actionCode.toUpperCase()) {
             case "M":
-                result = new Move();
+                result = new Move(hunter, labyrinth);
                 break;
             case "L":
-                result = new TurnLeft();
+                result = new TurnLeft(hunter, labyrinth);
                 break;
             case "R":
-                result = new TurnRight();
+                result = new TurnRight(hunter, labyrinth);
                 break;
             case "S":
-                result = new Shoot();
+                result = new Shoot(hunter, labyrinth);
                 break;
             case "G":
-                result = new Grab();
+                result = new Grab(hunter, labyrinth);
                 break;
             case "E":
-                result = new Exit();
+                result = new Exit(hunter, labyrinth);
                 break;
             default:
-                PlayerSpeaker.speak("Not a valid action. Please try again...");
+                PlayerSpeaker.speakInRed("### + -> " + actionCode +  " <- is not a valid action. Please try again...");
+                return null;
         }
         return result;
     }

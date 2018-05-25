@@ -9,8 +9,12 @@ import com.hunter.wumpus.perceptions.Perception;
 
 public class TurnLeft extends Action {
 
-    @Override
-    public List<Perception> doAction(Hunter hunter, Labyrinth labyrinth) {
+    public TurnLeft(Hunter hunter, Labyrinth labyrinth) {
+		super(hunter, labyrinth);
+	}
+
+	@Override
+    public List<Perception> doAction() {
         perceptionsAfterAction.addAll(findPerceptions(labyrinth, hunter.getActualPosition()));
         Direction newDirection = new Direction(hunter.getDirection().getDirectionToLeft());
         hunter.setDirection(newDirection);

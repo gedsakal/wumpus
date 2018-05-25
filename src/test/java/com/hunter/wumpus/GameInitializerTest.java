@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.hunter.wumpus.model.Hunter;
 import com.hunter.wumpus.model.Labyrinth;
+import com.hunter.wumpus.model.Position;
 import com.hunter.wumpus.model.RoomTypeEnum;
 import com.hunter.wumpus.perceptions.Breeze;
 import com.hunter.wumpus.perceptions.WumpusStink;
@@ -37,11 +38,11 @@ public class GameInitializerTest {
     public void setupPerceptionsOfPitsTest() {
         Labyrinth labyrinth = new Labyrinth(5);
 
-        labyrinth.setXYRoomTo(RoomTypeEnum.PIT, 0,0);
-        labyrinth.setXYRoomTo(RoomTypeEnum.PIT, 0,4);
-        labyrinth.setXYRoomTo(RoomTypeEnum.PIT, 4,0);
-        labyrinth.setXYRoomTo(RoomTypeEnum.PIT, 4,4);
-        labyrinth.setXYRoomTo(RoomTypeEnum.PIT, 2, 2);
+        labyrinth.setXYRoomTo(RoomTypeEnum.PIT, new Position(0,0));
+        labyrinth.setXYRoomTo(RoomTypeEnum.PIT, new Position(0,4));
+        labyrinth.setXYRoomTo(RoomTypeEnum.PIT, new Position(4,0));
+        labyrinth.setXYRoomTo(RoomTypeEnum.PIT, new Position(4,4));
+        labyrinth.setXYRoomTo(RoomTypeEnum.PIT, new Position(2,2));
 
         initializer.setupInitialPerceptions(labyrinth);
 
@@ -67,7 +68,7 @@ public class GameInitializerTest {
     public void setupPerceptionsOfWumpusTest() {
         Labyrinth labyrinth = new Labyrinth(5);
 
-        labyrinth.setXYRoomTo(RoomTypeEnum.WUMPUS, 2, 2);
+        labyrinth.setXYRoomTo(RoomTypeEnum.WUMPUS, new Position(2, 2));
 
         initializer.setupInitialPerceptions(labyrinth);
 
@@ -82,8 +83,8 @@ public class GameInitializerTest {
     public void setupPerceptionsOfPitAndWumpusTest() {
         Labyrinth labyrinth = new Labyrinth(5);
 
-        labyrinth.setXYRoomTo(RoomTypeEnum.WUMPUS,0, 0);
-        labyrinth.setXYRoomTo(RoomTypeEnum.PIT,1, 1);
+        labyrinth.setXYRoomTo(RoomTypeEnum.WUMPUS, new Position(0,0));
+        labyrinth.setXYRoomTo(RoomTypeEnum.PIT, new Position(1,1));
 
         initializer.setupInitialPerceptions(labyrinth);
 
