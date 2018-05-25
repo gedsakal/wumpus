@@ -1,15 +1,15 @@
 package com.hunter.model;
 
-import com.hunter.model.perceptions.Perception;
+import com.hunter.perceptions.Perception;
+import com.hunter.perceptions.WumpusStink;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Room {
 
-    RoomTypeEnum roomType;
-
-    List<Perception> perceptionsInHere = new ArrayList<>();
+    private RoomTypeEnum roomType;
+    private List<Perception> perceptionsInHere = new ArrayList<>();
 
     public Room() {
         this.roomType = RoomTypeEnum._EMPTY;

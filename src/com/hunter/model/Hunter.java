@@ -1,15 +1,19 @@
 package com.hunter.model;
 
-public class Hunter {
+/**
+ * Representing a Hunter who can move.
+ * Also has arrows, can beat a beast, win the game and so on...
+ */
+public class Hunter implements IAbleToMove {
 
-    private Direction direction = new Direction(DirectionEnum.EAST);
-    private int arrowsLeft = 0;
-    private boolean wumpusBeated = false;
+    private Direction direction = new Direction(DirectionEnum.EAST); // starts game lookin to East
+    private boolean hasBeatenWumpus = false;
     private boolean gotMoney = false;
-    private boolean winner = false;
-    private boolean alive = true;
+    private boolean isAWinner = false;
+    private boolean isAlive = true;
 
     private Position actualPosition;
+    private int arrowsLeft;
 
     public Hunter (int arrowsCount, int labyrinthSize) {
         this.arrowsLeft = arrowsCount;
@@ -32,20 +36,20 @@ public class Hunter {
         this.arrowsLeft = arrowsLeft;
     }
 
-    public boolean isWumpusBeated() {
-        return wumpusBeated;
+    public boolean hasBeatenWumpus() {
+        return hasBeatenWumpus;
     }
 
-    public void setWumpusBeated(boolean wumpusBeated) {
-        this.wumpusBeated = wumpusBeated;
+    public void setHasBeatenWumpus(boolean beatedWumpus) {
+        this.hasBeatenWumpus = beatedWumpus;
     }
 
-    public boolean isWinner() {
-        return winner;
+    public boolean isAWinner() {
+        return isAWinner;
     }
 
     public void setWinner() {
-        this.winner = true;
+        this.isAWinner = true;
     }
 
     public Position getActualPosition() {
@@ -57,26 +61,25 @@ public class Hunter {
     }
 
     public boolean isAlive() {
-        return alive;
+        return isAlive;
     }
 
     public void killedByWumpus() {
-        this.alive = false;
+        this.isAlive = false;
     }
 
     public void fallenIntoDarkness() {
-        this.alive = false;
+        this.isAlive = false;
+    }
+
+    public void grabTheGold() {
+        this.gotMoney = true;
     }
 
     public boolean isGotMoney() {
         return gotMoney;
     }
 
-    public void setGotMoney(boolean gotMoney) {
-        this.gotMoney = gotMoney;
-    }
 
-    public void setAlive(boolean alive) {
-        this.alive = alive;
-    }
+
 }

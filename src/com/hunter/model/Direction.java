@@ -13,7 +13,6 @@ public class Direction {
         this.actualDirection = d;
     }
 
-
     public DirectionEnum getActualDirection() {
         return actualDirection;
     }
@@ -22,14 +21,22 @@ public class Direction {
         this.actualDirection = actualDirection;
     }
 
+    /**
+     * Cycle through possible directions to right
+     * @return
+     */
     public DirectionEnum getDirectionToRight() {
         return  availableDirections.get( (availableDirections.indexOf(actualDirection) + 1)
-                % availableDirections.size());
+                    % availableDirections.size());
     }
 
+    /**
+     * Cycle through possible directions to left
+     * @return
+     */
     public DirectionEnum getDirectionToLeft() {
         return  availableDirections.get( ((availableDirections.indexOf(actualDirection) - 1) + availableDirections.size())
-                % availableDirections.size());
+                    % availableDirections.size());
     }
 
 

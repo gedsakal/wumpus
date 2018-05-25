@@ -1,14 +1,16 @@
 package com.hunter.utils;
 
-import com.hunter.GameController;
 import com.hunter.actions.Action;
 
+import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Listens to a player and scans numbers as Parameters or characters as Actions
+ */
 public class PlayerListener extends PlayerSpeaker {
 
-    static Scanner scanner = new Scanner(System.in);
-
+    private static Scanner scanner = new Scanner(System.in);
 
     public static int readANumber(String forWhat, int maxValue) {
         int aNumber = 0;
@@ -33,9 +35,19 @@ public class PlayerListener extends PlayerSpeaker {
         Action action = null;
         while (action == null) {
             if (scanner.hasNext()) {
-                action = GameController.findAction( scanner.next());
+                action = Action.findAction( scanner.next() );
             }
         }
         return action;
+    }
+
+
+    public static void exit() {
+        speak("\n\n....hit any button to exit...");
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

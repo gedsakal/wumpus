@@ -1,4 +1,4 @@
-package com.hunter.model.perceptions;
+package com.hunter.perceptions;
 
 public class NoArrowsLeft extends Perception {
 }

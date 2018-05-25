@@ -1,7 +1,7 @@
 package com.hunter.model;
 
 /**
- * Its a square board defined by Width and consist of Rooms (each cell)
+ * Its a square board defined by Width and consist of Rooms of different types
  */
 public class Labyrinth {
 
@@ -14,6 +14,7 @@ public class Labyrinth {
                 rooms[i][j] = new Room();
             }
         }
+        rooms[0][width-1].setRoomType(RoomTypeEnum.EXIT);
     }
 
     public int getWidth() {
@@ -25,7 +26,11 @@ public class Labyrinth {
     }
 
     public Room getRoom(int x, int y) {
-        return rooms[x][y];
+        if (0 <= x && x < this.getWidth() && 0 <= y && y < this.getWidth()) {
+            return rooms[x][y];
+        } else {
+            return null;
+        }
     }
 
     public void setXYRoomTo(RoomTypeEnum type, int x, int y) {

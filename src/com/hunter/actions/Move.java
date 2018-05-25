@@ -1,15 +1,8 @@
 package com.hunter.actions;
 
-import com.hunter.GameController;
-import com.hunter.model.Hunter;
-import com.hunter.model.Labyrinth;
-import com.hunter.model.Position;
-import com.hunter.model.RoomTypeEnum;
-import com.hunter.model.perceptions.BumpToWall;
-import com.hunter.model.perceptions.Exit;
-import com.hunter.model.perceptions.GoldGlitter;
-import com.hunter.model.perceptions.Perception;
-import com.hunter.utils.PlayerSpeaker;
+import com.hunter.model.*;
+import com.hunter.perceptions.*;
+import com.hunter.perceptions.Stairs;
 
 import java.util.List;
 
@@ -17,28 +10,33 @@ public class Move extends Action {
 
     @Override
     public List<Perception> doAction(Hunter hunter, Labyrinth labyrinth) {
-        Position newPosition = GameController.findNextPosition(hunter, labyrinth);
+        Position newPosition = findNextPosition(hunter, labyrinth);
 
-        if (newPosition.equals(hunter.getActualPosition())) {
+        if (newPosition.equals(hunter.getActualPosition())) { // position did not change
             perceptionsAfterAction.add(new BumpToWall());
         } else {
-            hunter.setActualPosition(newPosition);
+            hunter.setActualPosition(newPosition);  // move is made
         }
 
-        perceptionsAfterAction.addAll(GameController.getRoomPerceptions(labyrinth, hunter.getActualPosition()));
+        perceptionsAfterAction.addAll(findPerceptions(labyrinth, hunter.getActualPosition()));
 
         if (labyrinth.getRoom(hunter.getActualPosition()).getRoomType().equals(RoomTypeEnum.WUMPUS)) {
-            PlayerSpeaker.speak("WUMPUS eats you x( at  " + hunter.getActualPosition().toString() );
-            hunter.killedByWumpus(); // GAME OVER
+            if (!hunter.hasBeatenWumpus()) {
+                perceptionsAfterAction.clear();
+                perceptionsAfterAction.add(new DeathByWumpus());
+                hunter.killedByWumpus(); // GAME OVER
+            }
         } else if (labyrinth.getRoom(hunter.getActualPosition()).getRoomType().equals(RoomTypeEnum.PIT)) {
-            PlayerSpeaker.speak("You have fallen into a PIT at " + hunter.getActualPosition().toString());
+            perceptionsAfterAction.clear();
+            perceptionsAfterAction.add(new DeathOfFall());
             hunter.fallenIntoDarkness(); // GAME OVER
         } else if (labyrinth.getRoom(hunter.getActualPosition()).getRoomType().equals(RoomTypeEnum.GOLD)) {
             perceptionsAfterAction.add(new GoldGlitter());
         } else if (labyrinth.getRoom(hunter.getActualPosition()).getRoomType().equals(RoomTypeEnum.EXIT)) {
-            perceptionsAfterAction.add(new Exit());
+            perceptionsAfterAction.add(new Stairs());
         }
 
         return perceptionsAfterAction;
     }
+
 }
