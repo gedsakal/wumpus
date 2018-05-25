@@ -11,18 +11,24 @@ import com.hunter.wumpus.perceptions.Perception;
 import com.hunter.wumpus.utils.PlayerSpeaker;
 
 public class Grab extends Action {
+	
+	
+    public Grab(Hunter hunter, Labyrinth labyrinth) {
+		super(hunter, labyrinth);
+	}
 
-    @Override
-    public List<Perception> doAction(Hunter hunter, Labyrinth labyrinth) {
+	@Override
+    public List<Perception> doAction() {
 
         perceptionsAfterAction.addAll(findPerceptions(labyrinth, hunter.getActualPosition()));
 
-        if (labyrinth.getRoom( hunter.getActualPosition()).getRoomType().equals(RoomTypeEnum.GOLD) ) {
+        if (labyrinth.getRoom( hunter.getActualPosition()).isGOLD() ) {
             hunter.grabTheGold();
-            PlayerSpeaker.speak("Got some GOLD. Now try to EXIT without Dying.");
-            labyrinth.setXYRoomTo(RoomTypeEnum._EMPTY, hunter.getActualPosition().getX(), hunter.getActualPosition().getY());
+            PlayerSpeaker.speak("$$$ Got some GOLD. Now try to EXIT without Dying. $$$");
+            labyrinth.setXYRoomTo(RoomTypeEnum._EMPTY, hunter.getActualPosition());
         } else {
-            PlayerSpeaker.speak("Can't grab GOLD here. " + (hunter.isGotMoney() ? "Already have it ;)" : ""));
+            PlayerSpeaker.speakInRed("### Can't grab GOLD here. It is not here." 
+            		+ (hunter.isGotMoney() ? " You already have it ;) $$$" : ""));
         }
 
         return perceptionsAfterAction;

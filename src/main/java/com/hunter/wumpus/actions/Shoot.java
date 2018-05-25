@@ -7,7 +7,6 @@ import com.hunter.wumpus.model.Arrow;
 import com.hunter.wumpus.model.Hunter;
 import com.hunter.wumpus.model.Labyrinth;
 import com.hunter.wumpus.model.Position;
-import com.hunter.wumpus.model.RoomTypeEnum;
 import com.hunter.wumpus.perceptions.BumpToWall;
 import com.hunter.wumpus.perceptions.NoArrowsLeft;
 import com.hunter.wumpus.perceptions.Perception;
@@ -15,8 +14,12 @@ import com.hunter.wumpus.perceptions.WumpusDies;
 
 public class Shoot extends Action {
 
-    @Override
-    public List<Perception> doAction(Hunter hunter, Labyrinth labyrinth) {
+    public Shoot(Hunter hunter, Labyrinth labyrinth) {
+		super(hunter, labyrinth);
+	}
+
+	@Override
+    public List<Perception> doAction() {
         perceptionsAfterAction.addAll(findPerceptions(labyrinth, hunter.getActualPosition()));
 
         if (hunter.getArrowsLeft() > 0) {
@@ -30,7 +33,7 @@ public class Shoot extends Action {
                         && !hunter.hasBeatenWumpus() ) {
                     if (arrow.getActualPosition().equals(newPosition)) {
                         perceptionsAfterAction.add(new BumpToWall());
-                    } else if (labyrinth.getRoom(newPosition).getRoomType().equals(RoomTypeEnum.WUMPUS)) {
+                    } else if (labyrinth.getRoom(newPosition).isWUMPUS()) {
                         perceptionsAfterAction.add(new WumpusDies());
                         hunter.setHasBeatenWumpus(true);
                     } else {

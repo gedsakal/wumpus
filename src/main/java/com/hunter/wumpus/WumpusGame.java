@@ -1,13 +1,8 @@
 package com.hunter.wumpus;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.hunter.wumpus.actions.Action;
 import com.hunter.wumpus.model.Hunter;
 import com.hunter.wumpus.model.Labyrinth;
-import com.hunter.wumpus.perceptions.Perception;
 import com.hunter.wumpus.utils.PlayerListener;
 import com.hunter.wumpus.utils.PlayerSpeaker;
 
@@ -33,6 +28,7 @@ public class WumpusGame {
         wg.init();
         wg.play();
         wg.resume();
+        
         PlayerListener.exit();
     }
 
@@ -41,6 +37,7 @@ public class WumpusGame {
      */
     private void init() {
         PlayerSpeaker.speak("*** Hi There! This is not a game - this is WUMPUS Hunting... \n ");
+        PlayerSpeaker.speak("*** Lets begin!");
         labyrinth = initializer.initLabyrinth();
         hunter = initializer.initHunter(labyrinth.getWidth());
     }
@@ -49,26 +46,19 @@ public class WumpusGame {
      * Playing
      */
     private void play() {
-        PlayerSpeaker.speak("*** Lets begin!");
+        PlayerSpeaker.speak("*** Lets Play!");
 
-        Action action = null;
-        List<Perception> currentPerceptions = new ArrayList<>();
+        while (!hunter.isAWinner() && hunter.isAlive()) { // win or die
+        	
+        	// where is the hunter?
+        	PlayerSpeaker.speak(hunter);
 
-        while (!hunter.isAWinner() && hunter.isAlive()) {
-            // tell me what is happening
-            PlayerSpeaker.tellPerceptions(currentPerceptions, hunter, action);
-
-            PlayerSpeaker.speak("Move [M] or turn left [L] or turn right [R] or shoot [S] or grab the gold [G] or exit [E]");
-            // take an action
-            action = PlayerListener.readAction();
-
-            // perceive
-            currentPerceptions = action.doAction(hunter, labyrinth);
-
-        }
-
-        PlayerSpeaker.tellPerceptions(currentPerceptions, hunter, action);
-
+        	// what he does?
+            PlayerSpeaker.speak("\n-> Move [M] or turn left [L] or turn right [R] or shoot [S] or grab the gold [G] or exit [E]");
+            
+            // how it feels?
+            PlayerSpeaker.tellPerceptions( PlayerListener.readAction(hunter, labyrinth).doAction() );           
+        }        
     }
 
 
@@ -76,11 +66,15 @@ public class WumpusGame {
      * Shows result
      */
     private void resume() {
+    	// where is the hunter?
+    	PlayerSpeaker.speak(hunter);
+    	    	
         if (hunter.isAWinner()) {
-            PlayerSpeaker.speak("  You are the winner!");
+            PlayerSpeaker.speak("*** = You are the winner!");
         } else {
-            PlayerSpeaker.speak("  So sorry.. you are died.");
-        }
+            PlayerSpeaker.speakInRed("*** = So sorry.. you are died.");
+        }        
+    	
         PlayerSpeaker.speak("*** Game over.");
     }
 

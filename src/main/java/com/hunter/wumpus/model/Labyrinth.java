@@ -33,8 +33,8 @@ public class Labyrinth {
         }
     }
 
-    public void setXYRoomTo(RoomTypeEnum type, int x, int y) {
-        rooms[x][y].setRoomType(type);
+    public void setXYRoomTo(RoomTypeEnum type, Position pos) {
+        rooms[pos.getX()][pos.getY()].setRoomType(type);
     }
 
 }

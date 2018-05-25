@@ -29,7 +29,7 @@ public class GameInitializer extends PlayerSpeaker {
      * Reads necessary parameters and creates labyrinth
      * @return
      */
-    public static Labyrinth initLabyrinth() {
+    public Labyrinth initLabyrinth() {
         PlayerSpeaker.speak("To initialize the game please provide the Following parameters:");
         int labyrinthSize = PlayerListener.readANumber("-> Enter Labyrinth size:", -1);
         int numberOfPits = PlayerListener.readANumber("-> Enter number of pits:", labyrinthSize);
@@ -49,10 +49,9 @@ public class GameInitializer extends PlayerSpeaker {
      * @param pitsCount
      * @return
      */
-    private static Labyrinth initLabyrinth(int size, int pitsCount) {
+    private Labyrinth initLabyrinth(int size, int pitsCount) {
 
         Labyrinth labyrinth = new Labyrinth(size);
-
 
         createRoomByType(labyrinth, pitsCount, RoomTypeEnum.PIT);
         createRoomByType(labyrinth, 1, RoomTypeEnum.GOLD);
@@ -66,7 +65,7 @@ public class GameInitializer extends PlayerSpeaker {
      * @param labyrinthSize
      * @return
      */
-    public static Hunter initHunter(int labyrinthSize) {
+    public Hunter initHunter(int labyrinthSize) {
         int numberOfArrows= PlayerListener.readANumber("-> Enter number of arrows you wish to give for your hunter:", -1);
         return new Hunter(numberOfArrows, labyrinthSize);
     }
@@ -76,13 +75,13 @@ public class GameInitializer extends PlayerSpeaker {
      * Perceptions of GoldGlitter, Death are added on Move action
      * @param labyrinth
      */
-    public static void setupInitialPerceptions(Labyrinth labyrinth) {
+    public void setupInitialPerceptions(Labyrinth labyrinth) {
         for (int i = 0; i < labyrinth.getWidth(); i++) {
             for (int j = 0; j < labyrinth.getWidth(); j++) {
-                if(labyrinth.getRoom(i,j).getRoomType().equals(RoomTypeEnum.WUMPUS)) {
+                if(labyrinth.getRoom(i,j).isWUMPUS()) {
                     labyrinth.getRoom(i,j).addPerception(new WumpusStink());
                     addPerceptionToRoomSurroundings(new WumpusStink(), labyrinth, i, j);
-                } else if(labyrinth.getRoom(i,j).getRoomType().equals(RoomTypeEnum.PIT)) {
+                } else if(labyrinth.getRoom(i,j).isPIT()) {
                     addPerceptionToRoomSurroundings(new Breeze(), labyrinth, i, j);
                 }
             }
@@ -96,7 +95,7 @@ public class GameInitializer extends PlayerSpeaker {
      * @param x
      * @param y
      */
-    private static void  addPerceptionToRoomSurroundings(Perception perception, Labyrinth labyrinth, int x, int y) {
+    private void  addPerceptionToRoomSurroundings(Perception perception, Labyrinth labyrinth, int x, int y) {
         if (labyrinth.getRoom(x-1,y) != null) labyrinth.getRoom(x-1,y).addPerception(perception);
         if (labyrinth.getRoom(x+1,y) != null) labyrinth.getRoom(x+1,y).addPerception(perception);
         if (labyrinth.getRoom(x,y-1) != null) labyrinth.getRoom(x,y-1).addPerception(perception);
@@ -110,10 +109,10 @@ public class GameInitializer extends PlayerSpeaker {
      * @param roomsCount
      * @param roomType
      */
-    private static void createRoomByType(Labyrinth labyrinth, int roomsCount, RoomTypeEnum roomType) {
+    private void createRoomByType(Labyrinth labyrinth, int roomsCount, RoomTypeEnum roomType) {
         for (int i = 0; i < roomsCount; i++) {
             Position emptyPos = getRandomEmptyPosition(labyrinth);
-            labyrinth.setXYRoomTo(roomType, emptyPos.getX(), emptyPos.getY());
+            labyrinth.setXYRoomTo(roomType, emptyPos);
             if (SHOW_THE_SECRET) PlayerSpeaker.speak (" ... [" + emptyPos.getX() + ":" + emptyPos.getY() + "] is " + roomType);
         }
     }
@@ -123,7 +122,7 @@ public class GameInitializer extends PlayerSpeaker {
      * @param labyrinth
      * @return
      */
-    private static Position getRandomEmptyPosition(Labyrinth labyrinth) {
+    private Position getRandomEmptyPosition(Labyrinth labyrinth) {
         int randomX = ran.nextInt(labyrinth.getWidth());
         int randomY = ran.nextInt(labyrinth.getWidth());
 
@@ -143,7 +142,7 @@ public class GameInitializer extends PlayerSpeaker {
      * @param labyrinth
      * @return
      */
-    private static boolean emptyRoomsLeft(Labyrinth labyrinth) {
+    private boolean emptyRoomsLeft(Labyrinth labyrinth) {
         for (int i = 0; i<labyrinth.getWidth(); i++) {
             for(int j = 0; j<labyrinth.getWidth(); j++) {
                 if (labyrinth.getRoom(i,j).isEmpty()) {
